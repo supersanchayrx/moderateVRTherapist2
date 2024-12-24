@@ -23,7 +23,7 @@ public class navmeshTherapist : MonoBehaviour
         //player = GameObject.Find("Player").GetComponent<Transform>();
 
         //agent.SetDestination(player.position);
-        InvokeRepeating("updateTarget", 0.5f,1.2f);
+        InvokeRepeating("updateTarget", 0.5f, 1.2f);
 
         currentTransform = player;
 
@@ -33,9 +33,9 @@ public class navmeshTherapist : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(agent.velocity.magnitude!=0f)
+        if (agent.velocity.magnitude != 0f)
         {
-            anim.SetBool("isWalking",true);
+            anim.SetBool("isWalking", true);
         }
 
         else
@@ -43,7 +43,7 @@ public class navmeshTherapist : MonoBehaviour
             anim.SetBool("isWalking", false);
         }
 
-        if(Vector3.Magnitude(agent.velocity)==0f)
+        if (Vector3.Magnitude(agent.velocity) == 0f)
         {
             reached = true;
         }
@@ -60,7 +60,7 @@ public class navmeshTherapist : MonoBehaviour
 
         else
         {
-            therapistAtMine=false;
+            therapistAtMine = false;
         }
 
     }
@@ -81,13 +81,13 @@ public class navmeshTherapist : MonoBehaviour
     public void setTransform(int i)
     {
         switch (i)
-            {
+        {
             case 0:
                 currentTransform = player;
                 break;
 
             case 1:
-                currentTransform = startPos; 
+                currentTransform = startPos;
                 break;
 
             case 2:

@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/Tribhuvan/Scenes/MainScene.unity
     guid: 4c1edfe7694a7b647a6c9ea9c34b62bc
   - enabled: 1
-    path: Assets/Tribhuvan/EffectStuff/Scenes/Main Demo Scene.unity
+    path: Assets/Tribhuvan/EffectStuff/Scenes/Main Demo Scene3.unity
     guid: ccc5b6334ec377b498ce4052ba9f1134
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: ef9e7f6f6f55ce84aada987e23ede2a4, type: 2}

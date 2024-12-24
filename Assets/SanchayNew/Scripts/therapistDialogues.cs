@@ -7,18 +7,18 @@ public class therapistDialogues : MonoBehaviour
     public string[] dialogues;
     public float timer = 0f;
 
-    public bool interacted=false;
-    public bool playerFollowed=true;
-    public bool reachedPlayer=false;
-    public bool playerConnected=false;
+    public bool interacted = false;
+    public bool playerFollowed = true;
+    public bool reachedPlayer = false;
+    public bool playerConnected = false;
 
-    public bool playerAtMine=false;
+    public bool playerAtMine = false;
 
     public float retryTimer, reachedDistance;
 
     public int currentDialogue;
 
-    public bool canTalk=true;
+    public bool canTalk = true;
 
     int ttsRequestCount = 5;
     int currentttsRequests = 0;
@@ -27,7 +27,7 @@ public class therapistDialogues : MonoBehaviour
     navmeshTherapist therapistScript;
     TextToSpeech ttsScript;
 
-    public bool vineConnected=false;
+    public bool vineConnected = false;
 
     private void Start()
     {
@@ -39,14 +39,14 @@ public class therapistDialogues : MonoBehaviour
     private void Update()
     {
 
-        if (Vector3.Distance(this.gameObject.transform.position, therapistScript.player.position)<= reachedDistance)
+        if (Vector3.Distance(this.gameObject.transform.position, therapistScript.player.position) <= reachedDistance)
         {
             reachedPlayer = true;
         }
 
         else
         {
-            reachedPlayer= false;
+            reachedPlayer = false;
         }
 
         if (reachedPlayer && !interacted && !anim.GetBool("isWalking"))
@@ -55,7 +55,7 @@ public class therapistDialogues : MonoBehaviour
             StartCoroutine(moveTonextPoint(2));
         }
 
-        if(!interacted && playerAtMine && playerFollowed && canTalk)
+        if (!interacted && playerAtMine && playerFollowed && canTalk)
         {
             //playerFollowed = true;
             //interacted = true;
@@ -70,7 +70,7 @@ public class therapistDialogues : MonoBehaviour
             timer += Time.deltaTime;
         }
 
-        else if(interacted && playerAtMine && vineConnected)
+        else if (interacted && playerAtMine && vineConnected)
         {
             vineConnected = false;
             timer = 0f;
@@ -85,7 +85,7 @@ public class therapistDialogues : MonoBehaviour
             timer = 0f;
         }
 
-        if(timer>retryTimer)
+        if (timer > retryTimer)
         {
             timer = 0f;
             //go to player again and repeat the last dialogue
@@ -93,23 +93,23 @@ public class therapistDialogues : MonoBehaviour
         }
 
 
-        if((Vector3.Distance(this.gameObject.transform.position, therapistScript.player.position)<=reachedDistance && anim.GetBool("isWalking")) || playerAtMine)
+        if ((Vector3.Distance(this.gameObject.transform.position, therapistScript.player.position) <= reachedDistance && anim.GetBool("isWalking")) || playerAtMine)
         {
-            playerFollowed= true;
+            playerFollowed = true;
         }
 
         else
         {
-            playerFollowed=false;
+            playerFollowed = false;
         }
     }
 
 
-    IEnumerator moveTonextPoint( int i)
+    IEnumerator moveTonextPoint(int i)
     {
         interacted = true;
         canTalk = false;
-        if (currentttsRequests<ttsRequestCount && reachedPlayer)
+        if (currentttsRequests < ttsRequestCount && reachedPlayer)
         {
             ttsScript.startTTs(dialogues[currentDialogue]);
             currentttsRequests++;
@@ -134,13 +134,13 @@ public class therapistDialogues : MonoBehaviour
         therapistScript.setTransform(i);
         while (!reachedPlayer)
         {
-            yield return null; 
+            yield return null;
         }
         //ttsScript.startTTs(dialogues[currentDialogue]);
         interacted = false;
         yield return new WaitForSeconds(0.2f);
         //playerFollowed = false;
         //interacted=false;
-    }  
+    }
 
 }

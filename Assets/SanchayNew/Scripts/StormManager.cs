@@ -32,7 +32,7 @@ public class StormManager : MonoBehaviour
 
     public float rainValue, thunderValue, vigIntensity,sat,hue,con,currentVolume;
 
-    public Color currentColor;
+    public Color currentColor, startinColor;
 
     public Volume vol;
 
@@ -48,7 +48,8 @@ public class StormManager : MonoBehaviour
         vol.profile.TryGet(out vig);
         vol.profile.TryGet(out colorAdjustments);
 
-        currentColor = colorAdjustments.colorFilter.value;
+        startinColor = colorAdjustments.colorFilter.value;
+        currentColor = startinColor;
     }
 
     private void Update()
@@ -74,7 +75,7 @@ public class StormManager : MonoBehaviour
         hue = Mathf.Lerp(maxHue, 0f, masterSlider);
         sat = Mathf.Lerp(maxSaturation, 0f, masterSlider);
         con = Mathf.Lerp(maxContrast, 0f, masterSlider);
-        currentColor = Color.Lerp(currentColor,finalColor,masterSlider);
+        currentColor = Color.Lerp(startinColor,finalColor,masterSlider);
         currentVolume = Mathf.Lerp(maxVolume, 0f, masterSlider);
 
 
