@@ -8,79 +8,137 @@ using System.Reflection;
 using Meta.WitAi.CallbackHandlers;
 using UnityEngine.Events;
 using System.Linq;
+using Oculus.Assistant.VoiceCommand.Configuration;
+using UnityEngine.InputSystem;
 
 public class VoiceManager : MonoBehaviour
 {
+
+    public bool canvasOn=false;
     [Header("Wit configs")]
     [SerializeField] private AppVoiceExperience appVoiceExperience;
-    [SerializeField] private WitResponseMatcher responseMatcher;
-    [SerializeField] private TextMeshProUGUI transcribedText;
+    [SerializeField] public TextMeshProUGUI transcribedText;
 
     [Header("Voice Events")]
-    [SerializeField] private UnityEvent wakeWordDetected;
-    [SerializeField] private UnityEvent<string> transcriptionCompleted;
+    [SerializeField] private UnityEvent transcriptionStarted;
+    [SerializeField] public UnityEvent transcriptionCompleted;
 
-    public bool voiceCommandavailable;
+    public bool voiceCommandAvailable = false;
+    public bool isTranscribing = false;
 
+    public GameObject transcriberCanvas;
+
+
+    public InputActionReference voiceCommands;
     private void Awake()
     {
-        appVoiceExperience.VoiceEvents.OnRequestCompleted.AddListener(ReactivateVoice);
+        voiceCommands.action.Enable();
+        voiceCommands.action.performed += talkToTherapist;
+        InputSystem.onDeviceChange += onDeviceChange;
+        // Ensure the voice events are properly set up
         appVoiceExperience.VoiceEvents.OnPartialTranscription.AddListener(OnPartialTranscription);
         appVoiceExperience.VoiceEvents.OnFullTranscription.AddListener(OnFullTranscription);
-
-        var eventField = typeof(WitResponseMatcher).GetField("onMultiValueEvent", BindingFlags.NonPublic | BindingFlags.Instance);
-        if(eventField != null && eventField.GetValue(responseMatcher) is MultiValueEvent onMultiValueEvent)
-        {
-            onMultiValueEvent.AddListener(WakeWordDetected);
-        }
-
-        appVoiceExperience.Activate();
-    }
-
-    void Start()
-    {
-        foreach (var device in Microphone.devices)
-        {
-            Debug.Log("Microphone found: " + device);
-        }
+        transcriberCanvas.SetActive(false);
     }
 
     private void OnDestroy()
     {
-        appVoiceExperience.VoiceEvents.OnRequestCompleted.RemoveListener(ReactivateVoice);
+        voiceCommands.action.Disable();
+        voiceCommands.action.performed -= talkToTherapist;
+        InputSystem.onDeviceChange -= onDeviceChange;
+
+
+        // Clean up listeners when the object is destroyed
         appVoiceExperience.VoiceEvents.OnPartialTranscription.RemoveListener(OnPartialTranscription);
         appVoiceExperience.VoiceEvents.OnFullTranscription.RemoveListener(OnFullTranscription);
+    }
 
-        var eventField = typeof(WitResponseMatcher).GetField("onMultiValueEvent", BindingFlags.NonPublic | BindingFlags.Instance);
-        if (eventField != null && eventField.GetValue(responseMatcher) is MultiValueEvent onMultiValueEvent)
+
+    void talkToTherapist(InputAction.CallbackContext context)
+    {
+        if (!voiceCommandAvailable)
         {
-            onMultiValueEvent.RemoveListener(WakeWordDetected);
+            StartTranscription();
+        }
+
+
+        else
+        {
+            StopTranscription();
         }
     }
 
-    private void ReactivateVoice() => appVoiceExperience.Activate();
-
-    private void WakeWordDetected(string[] arg0)
+    private void StartTranscription()
     {
-        voiceCommandavailable = true;
-        wakeWordDetected?.Invoke();
-        Debug.Log("playing Activation sound");
+        if (!voiceCommandAvailable)
+        {
+            transcriberCanvas.SetActive(true);
+            voiceCommandAvailable = true;
+            appVoiceExperience.Activate(); // Activate voice input
+            isTranscribing = true;
+            transcriptionStarted?.Invoke();
+            Debug.Log("Transcription started.");
+            canvasOn= true;
+        }
     }
 
-    void OnPartialTranscription(string transcription)
+    private void StopTranscription()
     {
-        if(!voiceCommandavailable) return;
-        transcribedText.text = transcription;
+        if (voiceCommandAvailable)
+        {
+            appVoiceExperience.Deactivate(); // Deactivate voice input
+            isTranscribing = false;
+            Debug.Log("Transcription stopped.");
+            transcriptionCompleted?.Invoke();
+            OnRequestCompleted();
+        }
     }
 
-    void OnFullTranscription(string transcription)
+    private void OnPartialTranscription(string transcription)
     {
-        if (!voiceCommandavailable) return;
-        voiceCommandavailable = false;
-        transcriptionCompleted?.Invoke(transcription);
-        Debug.Log("playing Deactivation sound");
+        if (voiceCommandAvailable && isTranscribing)
+        {
+            transcribedText.text = transcription; // Update text with partial transcription
+            Debug.Log(transcription);
+        }
+    }
+
+    private void OnFullTranscription(string transcription)
+    {
+        if (voiceCommandAvailable && isTranscribing)
+        {
+            transcribedText.text = transcription; // Update text with full transcription
+            StopTranscription(); // Automatically stop transcription after full transcription
+            transcriptionCompleted?.Invoke();
+            Debug.Log(transcription);
+
+        }
+    }
+
+    private void OnRequestCompleted()
+    {
+        voiceCommandAvailable = false; // Reset flag after a request is completed
+        //transcriberCanvas.SetActive(false);
     }
 
 
+    private void onDeviceChange(InputDevice device, InputDeviceChange change)
+    {
+        switch (change)
+        {
+            case InputDeviceChange.Disconnected:
+                voiceCommands.action.Disable();
+                voiceCommands.action.performed -= talkToTherapist;
+                break;
 
+            case InputDeviceChange.Reconnected:
+                voiceCommands.action.Enable();
+                voiceCommands.action.performed += talkToTherapist;
+                break;
+        }
+    }
 }
+
+
+
+

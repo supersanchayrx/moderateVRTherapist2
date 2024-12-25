@@ -20,12 +20,18 @@ public class therapistDialogues : MonoBehaviour
 
     public bool canTalk = true;
 
+    public bool firstTime=true;
+
     int ttsRequestCount = 5;
     int currentttsRequests = 0;
+
+    public bool playerCompletedInstruction=false;
 
     Animator anim;
     navmeshTherapist therapistScript;
     TextToSpeech ttsScript;
+
+    public Transform wisdomTree;
 
     public bool vineConnected = false;
 
@@ -34,6 +40,7 @@ public class therapistDialogues : MonoBehaviour
         anim = GetComponent<Animator>();
         therapistScript = GetComponent<navmeshTherapist>();
         ttsScript = GetComponent<TextToSpeech>();
+        firstTime = true;
     }
 
     private void Update()
@@ -49,13 +56,13 @@ public class therapistDialogues : MonoBehaviour
             reachedPlayer = false;
         }
 
-        if (reachedPlayer && !interacted && !anim.GetBool("isWalking"))
+        if (reachedPlayer && !interacted && !anim.GetBool("isWalking") && !firstTime)
         {
             Debug.Log("starting the first time interaction");
             StartCoroutine(moveTonextPoint(2));
         }
 
-        if (!interacted && playerAtMine && playerFollowed && canTalk)
+        if (!interacted && playerAtMine && playerFollowed && canTalk && !firstTime)
         {
             //playerFollowed = true;
             //interacted = true;
@@ -64,13 +71,13 @@ public class therapistDialogues : MonoBehaviour
             StartCoroutine(moveTonextPoint(2));
         }
 
-        if (interacted && !playerFollowed && !anim.GetBool("isWalking") && therapistScript.reached && therapistScript.therapistAtMine)
+        if (interacted && !playerFollowed && !anim.GetBool("isWalking") && therapistScript.reached && therapistScript.therapistAtMine && !firstTime)
         {
             Debug.Log("setting off the timer");
             timer += Time.deltaTime;
         }
 
-        else if (interacted && playerAtMine && vineConnected)
+        else if (interacted && playerAtMine && vineConnected && !firstTime)
         {
             vineConnected = false;
             timer = 0f;
@@ -93,7 +100,7 @@ public class therapistDialogues : MonoBehaviour
         }
 
 
-        if ((Vector3.Distance(this.gameObject.transform.position, therapistScript.player.position) <= reachedDistance && anim.GetBool("isWalking")) || playerAtMine)
+        if ((Vector3.Distance(this.gameObject.transform.position, therapistScript.player.position) <= reachedDistance && anim.GetBool("isWalking")) || playerAtMine && !firstTime)
         {
             playerFollowed = true;
         }
@@ -101,6 +108,17 @@ public class therapistDialogues : MonoBehaviour
         else
         {
             playerFollowed = false;
+        }
+
+        if(reachedPlayer && firstTime && canTalk)
+        {
+            StartCoroutine(pointToWisdomTree());
+        }
+
+        if(playerCompletedInstruction)
+        {
+            playerCompletedInstruction = false;
+            currentDialogue++;
         }
     }
 
@@ -141,6 +159,38 @@ public class therapistDialogues : MonoBehaviour
         yield return new WaitForSeconds(0.2f);
         //playerFollowed = false;
         //interacted=false;
+    }
+
+
+    IEnumerator pointToWisdomTree()
+    {
+        canTalk = false;
+        ttsScript.startTTs(dialogues[currentDialogue]);
+
+        anim.SetTrigger("Point");
+        yield return new WaitForSeconds(8f);
+        Vector3 direction = wisdomTree.position - transform.position;
+        direction.y= 0;
+        if (direction!=Vector3.zero)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(direction);
+            Vector3 eulerAngles = targetRotation.eulerAngles;
+
+            eulerAngles.y -= 44f;
+            Quaternion lookRot = Quaternion.Euler(eulerAngles);
+
+
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRot, 5f * Time.deltaTime);
+        }
+
+        //currentDialogue++;
+        //firstTime = false;
+
+        Debug.Log("told player about wisdom Tree");
+
+
+        yield return new WaitForSeconds(10f);
+        canTalk = true;
     }
 
 }

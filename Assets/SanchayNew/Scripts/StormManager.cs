@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.ProBuilder;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.Rendering.Universal;
@@ -38,18 +39,32 @@ public class StormManager : MonoBehaviour
 
     public AudioSource rainBgm;
 
+    public therapistDialogues therapistDialogueScript;
+
     UnityEngine.Rendering.Universal.Vignette vig;
     ColorAdjustments colorAdjustments;
+
+    public Transform player;
+    Transform startingPlayerTransform;
 
     private void Start()
     {
         lastMasterSliderValue = masterSlider;
+
+        player = GameObject.Find("Player").GetComponent<Transform>();
 
         vol.profile.TryGet(out vig);
         vol.profile.TryGet(out colorAdjustments);
 
         startinColor = colorAdjustments.colorFilter.value;
         currentColor = startinColor;
+
+        masterSlider = 1f;
+        UpdateStormParameters();
+
+        startingPlayerTransform = player;
+
+        //StartCoroutine(StartStorm());
     }
 
     private void Update()
@@ -122,5 +137,42 @@ public class StormManager : MonoBehaviour
     private void modifyRainSounds()
     {
         rainBgm.volume = currentVolume;
+    }
+
+    public IEnumerator StartStorm()
+    {
+        Debug.Log("flashing yo ahh abhi");
+
+        yield return new WaitForSeconds(0.1f);
+
+        float initialExposure = colorAdjustments.postExposure.value;
+
+        float elapsedTime = 0f;
+        while (elapsedTime < 2f)
+        {
+            // Lerp exposure value over time
+            colorAdjustments.postExposure.Override(Mathf.Lerp(initialExposure, 40f, elapsedTime / 2f));
+            elapsedTime += Time.deltaTime;
+            yield return null; // Wait for next frame
+        }
+
+        player.position = startingPlayerTransform.position;
+
+        yield return new WaitForSeconds(2f);
+
+        float resetElapsedTime = 0f;
+        float exposureDuringWait = colorAdjustments.postExposure.value;
+        while (resetElapsedTime < 2f)
+        {
+            colorAdjustments.postExposure.Override(Mathf.Lerp(exposureDuringWait, 0f, resetElapsedTime / 2f));
+            resetElapsedTime += Time.deltaTime;
+            yield return null; // Wait for next frame
+        }
+
+        masterSlider = 0f;
+        UpdateStormParameters();
+
+        therapistDialogueScript.playerCompletedInstruction = true;
+        therapistDialogueScript.firstTime = false;
     }
 }

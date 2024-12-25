@@ -21,6 +21,8 @@ public class RopeSocketChecker : MonoBehaviour
         { "rope4_end", 0 }
     };
 
+    public StormManager stormManager; 
+
     private void OnTriggerEnter(Collider other)
     {
         foreach (var pair in ropeToSphereMap)
@@ -47,6 +49,7 @@ public class RopeSocketChecker : MonoBehaviour
     // Method to trigger your custom task
     private void TriggerTask(string ropeEnd)
     {
+        stormManager.masterSlider += 0.2f;
         Debug.Log($"Task triggered for {ropeEnd}");
         // Add your custom task logic here
     }

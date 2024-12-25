@@ -37,7 +37,6 @@ public class navmeshTherapist : MonoBehaviour
         {
             anim.SetBool("isWalking", true);
         }
-
         else
         {
             anim.SetBool("isWalking", false);
@@ -47,21 +46,24 @@ public class navmeshTherapist : MonoBehaviour
         {
             reached = true;
         }
-
         else
         {
             reached = false;
         }
 
-        if (currentTransform == vinePos && agent.velocity.magnitude == 0f)
+        // Check if vinePos is assigned before using it
+        if (vinePos != null)
         {
-            therapistAtMine = true;
+            if (currentTransform == vinePos && agent.velocity.magnitude == 0f)
+            {
+                therapistAtMine = true;
+            }
+            else
+            {
+                therapistAtMine = false;
+            }
         }
 
-        else
-        {
-            therapistAtMine = false;
-        }
 
     }
 
@@ -75,6 +77,7 @@ public class navmeshTherapist : MonoBehaviour
 
     void updateTarget()
     {
+        Debug.Log("updating target");
         agent.SetDestination(currentTransform.position);
     }
 
@@ -94,6 +97,11 @@ public class navmeshTherapist : MonoBehaviour
                 currentTransform = vinePos;
                 break;
         }
+    }
+
+    public void setTransform(int i, bool mainScene)
+    {
+        currentTransform = startPos;
     }
 
     /*void updateDialogue()

@@ -10,6 +10,9 @@ public class TeleportToCar : MonoBehaviour
     public GameObject moveObj;
     public ParallaxEffect pe;
 
+    public GameObject stepHereCanvas, therapist;
+
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.name == "PlayerCollider")
@@ -21,6 +24,8 @@ public class TeleportToCar : MonoBehaviour
     private IEnumerator TeleportSequence()
     {
         moveObj.SetActive(false);
+        stepHereCanvas.SetActive(false);
+        therapist.SetActive(false);
         fadeManager.FadeOut();
         yield return new WaitForSeconds(1.5f); // Wait for fade out animation
         player.position = carSeatPosition.localPosition;
