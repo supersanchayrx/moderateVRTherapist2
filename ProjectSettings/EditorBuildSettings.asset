@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Tribhuvan/Scenes/MainScene.unity
+    guid: 4c1edfe7694a7b647a6c9ea9c34b62bc
+  - enabled: 1
+    path: Assets/Tribhuvan/EffectStuff/Scenes/Main Demo Scene.unity
+    guid: 1da83d9d5fc080247adec03f1a0bd35a
+  m_configObjects:
+    Unity.XR.Oculus.Settings: {fileID: 11400000, guid: ef9e7f6f6f55ce84aada987e23ede2a4, type: 2}
+    Unity.XR.WindowsMR.Settings: {fileID: 11400000, guid: dc5a169419fa04987b057f65238cf3ba, type: 2}
+    UnityEditor.XR.ARCore.ARCoreSettings: {fileID: 11400000, guid: 9bec1ce6a03ccba4b9a8215241b32e63, type: 2}
+    UnityEditor.XR.ARKit.ARKitSettings: {fileID: 11400000, guid: a49cadc1a815591479693b955ccf08c1, type: 2}
+    com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 985fdffee33a5944396199c6b7145dd4, type: 3}
+    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 7cb6e7bdffb696c4db57f64921350d0a, type: 2}
+    com.unity.xr.openxr.settings4: {fileID: 11400000, guid: 3e348f4f125f8e444933476aeb55490f, type: 2}
