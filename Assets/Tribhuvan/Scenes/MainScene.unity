@@ -1240,6 +1240,10 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5518899284880179291, guid: 77e7c27b2c5525e4aa8cc9f99d654486, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7277802327414017196, guid: 77e7c27b2c5525e4aa8cc9f99d654486, type: 3}
       propertyPath: m_BackGroundColor.a
       value: 1
@@ -1374,7 +1378,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8298045291338814965, guid: 77e7c27b2c5525e4aa8cc9f99d654486, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5.26
+      value: -7.69
       objectReference: {fileID: 0}
     - target: {fileID: 8298045291338814965, guid: 77e7c27b2c5525e4aa8cc9f99d654486, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1382,7 +1386,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8298045291338814965, guid: 77e7c27b2c5525e4aa8cc9f99d654486, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 4.5
+      value: 6.24
       objectReference: {fileID: 0}
     - target: {fileID: 8298045291338814965, guid: 77e7c27b2c5525e4aa8cc9f99d654486, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1492,7 +1496,7 @@ MonoBehaviour:
       m_SingletonActionBindings: []
       m_Flags: 0
     m_Reference: {fileID: -3908749543863820912, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-  canvas: {fileID: 0}
+  canvas: {fileID: 1202559681}
 --- !u!1 &346243443 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8298045291338814966, guid: 77e7c27b2c5525e4aa8cc9f99d654486, type: 3}
@@ -3101,6 +3105,10 @@ PrefabInstance:
       propertyPath: rightHand.vrTarget
       value: 
       objectReference: {fileID: 758352999}
+    - target: {fileID: 3031880880107523441, guid: c745716903bda564e9a3854d785860e7, type: 3}
+      propertyPath: head.trackingPositionOffset.z
+      value: -0.15
+      objectReference: {fileID: 0}
     - target: {fileID: 3302423038779023108, guid: c745716903bda564e9a3854d785860e7, type: 3}
       propertyPath: m_LocalPosition.x
       value: 32.1
@@ -5200,7 +5208,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1202559682
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5208,17 +5216,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1202559681}
-  m_LocalRotation: {x: 0.13043872, y: -0.036312625, z: 0.0047806976, w: 0.99077964}
-  m_LocalPosition: {x: 0, y: 0, z: 0.49}
+  m_LocalRotation: {x: 0.045783818, y: -0.036587533, z: 0.0016780586, w: 0.99827975}
+  m_LocalPosition: {x: 0, y: 0, z: 0.686}
   m_LocalScale: {x: 0.0010000004, y: 0.0009999999, z: 0.0010000003}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 319173007}
   m_Father: {fileID: 1192892205}
-  m_LocalEulerAnglesHint: {x: 15, y: -4.198, z: 0}
+  m_LocalEulerAnglesHint: {x: 5.252, y: -4.198, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -0.003, y: 1.07}
+  m_AnchoredPosition: {x: -0.003, y: 1.211}
   m_SizeDelta: {x: 709.4631, y: 175.6495}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1202559683
@@ -6647,6 +6655,8 @@ MonoBehaviour:
   fadeManager: {fileID: 2121655391}
   moveObj: {fileID: 204892906}
   pe: {fileID: 731743414}
+  stepHereCanvas: {fileID: 827724714}
+  therapist: {fileID: 2054416541}
 --- !u!54 &1482837591
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -7336,6 +7346,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c7271144050ae2488a74e00e8f9d38c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canvasOn: 0
   appVoiceExperience: {fileID: 1603478883}
   transcribedText: {fileID: 1862527033}
   transcriptionStarted:
@@ -7370,7 +7381,9 @@ MonoBehaviour:
         m_CallState: 2
   voiceCommandAvailable: 0
   isTranscribing: 0
-  transcriberCanvas: {fileID: 1202559681}
+  transcriptionCompletedbool: 0
+  textt: {fileID: 1672755096}
+  TranscribedText: 
   voiceCommands: {fileID: 5412515889096275573, guid: c348712bda248c246b8c49b3db54643f, type: 3}
 --- !u!82 &1603478881
 AudioSource:
@@ -8268,11 +8281,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1211167376446974607, guid: 2b071fcf623c1b74fbff0f39d6c3701e, type: 3}
       propertyPath: m_StoppingDistance
-      value: 0
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4734138067019342787, guid: 2b071fcf623c1b74fbff0f39d6c3701e, type: 3}
       propertyPath: APIKEY
-      value: sk_ad5e7388e1cb3c004da8a02140a123d5e1397e32c753c7e6
+      value: sk_02e65581ff5c92a1e04bf9068d53bef0bce8ce10428e9287
+      objectReference: {fileID: 0}
+    - target: {fileID: 4734138067019342787, guid: 2b071fcf623c1b74fbff0f39d6c3701e, type: 3}
+      propertyPath: VoiceID
+      value: nPczCjzI2devNBz1zQrb
       objectReference: {fileID: 0}
     - target: {fileID: 4734138067019342787, guid: 2b071fcf623c1b74fbff0f39d6c3701e, type: 3}
       propertyPath: textMessage
@@ -8323,6 +8340,10 @@ PrefabInstance:
     - target: {fileID: 6810855573594209623, guid: 2b071fcf623c1b74fbff0f39d6c3701e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8200013900641931861, guid: 2b071fcf623c1b74fbff0f39d6c3701e, type: 3}
+      propertyPath: MaxDistance
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 8200013900641931861, guid: 2b071fcf623c1b74fbff0f39d6c3701e, type: 3}
       propertyPath: m_audioClip
@@ -8377,6 +8398,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   navmeshTherapistScript: {fileID: 2054416542}
   textToSpeechScript: {fileID: 2054416545}
+  goTocar: 0
+  goToPlayer: 0
   stepHereCanvas: {fileID: 827724714}
 --- !u!114 &2054416545 stripped
 MonoBehaviour:
@@ -8401,11 +8424,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7d83387ae036504bb658fbba7202804, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  userInput: {fileID: 1862527033}
-  aiResponse: {fileID: 1549464724}
+  apiUrl: https://108d-103-23-29-120.ngrok-free.app/v1/chat/completions
+  userInput: {fileID: 1672755096}
+  aiResponse: {fileID: 1340977249}
   OnAIResponseReceived:
     m_PersistentCalls:
       m_Calls: []
+  responseReceived: 0
 --- !u!1001 &2082992544
 PrefabInstance:
   m_ObjectHideFlags: 0

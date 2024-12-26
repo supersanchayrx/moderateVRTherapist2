@@ -26,9 +26,12 @@ public class VoiceManager : MonoBehaviour
     public bool voiceCommandAvailable = false;
     public bool isTranscribing = false;
 
-    public GameObject transcriberCanvas;
+    public bool transcriptionCompletedbool=false;
 
+    //public GameObject transcriberCanvas;
+    public TMP_InputField textt;
 
+    public string TranscribedText;
     public InputActionReference voiceCommands;
     private void Awake()
     {
@@ -38,7 +41,8 @@ public class VoiceManager : MonoBehaviour
         // Ensure the voice events are properly set up
         appVoiceExperience.VoiceEvents.OnPartialTranscription.AddListener(OnPartialTranscription);
         appVoiceExperience.VoiceEvents.OnFullTranscription.AddListener(OnFullTranscription);
-        transcriberCanvas.SetActive(false);
+        //transcriberCanvas.SetActive(false);
+        //textt=GameObject.Find("texttt").GetComponent<TextMeshProUGUI>();
     }
 
     private void OnDestroy()
@@ -62,9 +66,15 @@ public class VoiceManager : MonoBehaviour
         }
 
 
-        else
+        else if(voiceCommandAvailable) 
         {
             StopTranscription();
+        }
+
+        else if(canvasOn)
+        {
+            //transcriberCanvas.SetActive(false);
+            canvasOn=false;
         }
     }
 
@@ -72,7 +82,7 @@ public class VoiceManager : MonoBehaviour
     {
         if (!voiceCommandAvailable)
         {
-            transcriberCanvas.SetActive(true);
+            //transcriberCanvas.SetActive(true);
             voiceCommandAvailable = true;
             appVoiceExperience.Activate(); // Activate voice input
             isTranscribing = true;
@@ -91,6 +101,7 @@ public class VoiceManager : MonoBehaviour
             Debug.Log("Transcription stopped.");
             transcriptionCompleted?.Invoke();
             OnRequestCompleted();
+            transcriptionCompletedbool = true;
         }
     }
 
@@ -99,6 +110,8 @@ public class VoiceManager : MonoBehaviour
         if (voiceCommandAvailable && isTranscribing)
         {
             transcribedText.text = transcription; // Update text with partial transcription
+            TranscribedText = transcription;
+            textt.text = transcription;    
             Debug.Log(transcription);
         }
     }
@@ -108,6 +121,8 @@ public class VoiceManager : MonoBehaviour
         if (voiceCommandAvailable && isTranscribing)
         {
             transcribedText.text = transcription; // Update text with full transcription
+            TranscribedText = transcription;
+            textt.text = transcription;
             StopTranscription(); // Automatically stop transcription after full transcription
             transcriptionCompleted?.Invoke();
             Debug.Log(transcription);
@@ -118,6 +133,7 @@ public class VoiceManager : MonoBehaviour
     private void OnRequestCompleted()
     {
         voiceCommandAvailable = false; // Reset flag after a request is completed
+        textt.text = TranscribedText;
         //transcriberCanvas.SetActive(false);
     }
 

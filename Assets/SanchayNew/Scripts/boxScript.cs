@@ -13,10 +13,16 @@ public class boxScript : MonoBehaviour
     public FloatingBox floatingBoxScript;
     public GameObject openText;
     public StormManager stormManager;
+    public TextToSpeech ttsScript;
+    public navmeshTherapist navmeshScript;
 
     Animator anim;
 
     public InputActionReference openBox;
+
+    public bool canTalk=true;
+
+    public bool movingToPlayer=false;
 
 
 
@@ -43,8 +49,20 @@ public class boxScript : MonoBehaviour
 
         if (((1 << collision.gameObject.layer) & terrainLayer) != 0)
         {
+            if(!movingToPlayer)
+            {
+                movingToPlayer = true;
+                navmeshScript.setTransform(0);
+            }
             therapistDialogueScript.playerCompletedInstruction = true;
             openText.SetActive(true);
+
+            if (canTalk)
+            {
+                canTalk = false;
+                ttsScript.startTTs("Now Open the box");
+            }
+            //StartCoroutine(therapistDialogueScript.moveTonextPoint(0, false));
         }
     }
 
@@ -55,6 +73,12 @@ public class boxScript : MonoBehaviour
             therapistDialogueScript.playerCompletedInstruction = true;
             openText.SetActive(true);
         }*/
+
+        if (!movingToPlayer)
+        {
+            movingToPlayer = true;
+            navmeshScript.setTransform(0);
+        }
 
         if (((1 << collision.gameObject.layer) & terrainLayer) != 0)
         {

@@ -8,11 +8,11 @@ public class therapistMainScene : MonoBehaviour
     Animator anim;
     public TextToSpeech textToSpeechScript;
 
-    private bool goTocar;
+    public bool goTocar, goToPlayer;
 
     public GameObject stepHereCanvas;
 
-    float safetyCheckTimer=0f;
+    //float safetyCheckTimer=0f;
 
     private void Start()
     {
@@ -20,35 +20,25 @@ public class therapistMainScene : MonoBehaviour
 
         anim.SetTrigger("wave");
         goTocar = false;
+        goToPlayer = true;
         stepHereCanvas.SetActive(false);
     }
 
     private void Update()
     {
-        if (!goTocar)
+        if (goToPlayer && navmeshTherapistScript.therapistNearPlayer)
         {
-            safetyCheckTimer += Time.deltaTime;
-        }
-
-        if (safetyCheckTimer > 2f)
-        {
-            goTocar = true;
-            safetyCheckTimer = 0f;
-        }
-
-        if (goTocar && navmeshTherapistScript.reached)
-        {
-            goTocar = false;
+            goToPlayer = false;
             StartCoroutine(gotoCar());
         }
     }
     IEnumerator gotoCar()
     {
         textToSpeechScript.startTTs(textToSpeechScript.textMessage);
-        yield return new WaitForSeconds(4f);
+        yield return new WaitForSeconds(2f);
         anim.SetTrigger("wave");
 
-        yield return new WaitForSeconds(22f);
+        yield return new WaitForSeconds(10f);
 
         navmeshTherapistScript.setTransform(1, true);
         stepHereCanvas.SetActive(true);

@@ -5,6 +5,7 @@ using UnityEngine.ProBuilder;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.SceneManagement;
 
 public class StormManager : MonoBehaviour
 {
@@ -47,6 +48,10 @@ public class StormManager : MonoBehaviour
     public Transform player;
     Transform startingPlayerTransform;
 
+    public bool stormStarted;
+
+    public TextToSpeech ttsScript;
+
     private void Start()
     {
         lastMasterSliderValue = masterSlider;
@@ -64,6 +69,8 @@ public class StormManager : MonoBehaviour
 
         startingPlayerTransform = player;
 
+        stormStarted=false;
+
         //StartCoroutine(StartStorm());
     }
 
@@ -78,6 +85,15 @@ public class StormManager : MonoBehaviour
             lastMasterSliderValue = masterSlider;
 
             UpdateStormParameters();
+        }
+
+        if (masterSlider == 0.8f)
+            masterSlider = 1f;
+
+        if(masterSlider==1f && stormStarted)
+        {
+            ttsScript.startTTs("Yayy you did it!!  You calmed yourself by practicing Neuro therapeutic excercise developed by moderate limited. This is just one of many ways we help you calm your mind! Thanks for playing");
+            StartCoroutine(ending());
         }
     }
 
@@ -101,6 +117,11 @@ public class StormManager : MonoBehaviour
         ModifyVigennete();
         modifyColors();
         modifyRainSounds();
+
+        if (stormStarted)
+        {
+            ttsScript.startTTs("Look around the storm is calming down");
+        }
     }
 
     private void ModifyExposure()
@@ -143,7 +164,7 @@ public class StormManager : MonoBehaviour
     {
         Debug.Log("flashing yo ahh abhi");
 
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(4f);
 
         float initialExposure = colorAdjustments.postExposure.value;
 
@@ -158,7 +179,7 @@ public class StormManager : MonoBehaviour
 
         player.position = startingPlayerTransform.position;
 
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1f);
 
         float resetElapsedTime = 0f;
         float exposureDuringWait = colorAdjustments.postExposure.value;
@@ -172,7 +193,32 @@ public class StormManager : MonoBehaviour
         masterSlider = 0f;
         UpdateStormParameters();
 
-        therapistDialogueScript.playerCompletedInstruction = true;
+        //therapistDialogueScript.playerCompletedInstruction = true;
         therapistDialogueScript.firstTime = false;
+        therapistDialogueScript.currentDialogue = 1;
+
+        stormStarted = true;
+    }
+
+    private IEnumerator ending()
+    {
+
+
+        Debug.Log("flashing yo ahh abhi");
+
+        yield return new WaitForSeconds(20f);
+
+        float initialExposure = colorAdjustments.postExposure.value;
+
+        float elapsedTime = 0f;
+        while (elapsedTime < 2f)
+        {
+            // Lerp exposure value over time
+            colorAdjustments.postExposure.Override(Mathf.Lerp(initialExposure, 40f, elapsedTime / 2f));
+            elapsedTime += Time.deltaTime;
+            yield return null; // Wait for next frame
+        }
+
+        SceneManager.LoadScene("MainScene");
     }
 }

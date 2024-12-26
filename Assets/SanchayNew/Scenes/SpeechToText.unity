@@ -714,6 +714,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c7271144050ae2488a74e00e8f9d38c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canvasOn: 0
   appVoiceExperience: {fileID: 757837326}
   transcribedText: {fileID: 1144354846}
   transcriptionStarted:
@@ -749,6 +750,8 @@ MonoBehaviour:
   voiceCommandAvailable: 0
   isTranscribing: 0
   transcriberCanvas: {fileID: 1290694359}
+  textt: {fileID: 1285621741}
+  TranscribedText: 
   voiceCommands: {fileID: 5412515889096275573, guid: c348712bda248c246b8c49b3db54643f, type: 3}
 --- !u!114 &757837325
 MonoBehaviour:
@@ -2160,7 +2163,7 @@ GameObject:
   - component: {fileID: 1751439694}
   - component: {fileID: 1751439693}
   m_Layer: 5
-  m_Name: Text
+  m_Name: texttt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

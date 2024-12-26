@@ -15,7 +15,7 @@ public class navmeshTherapist : MonoBehaviour
 
     therapistDialogues therapistDialoguesScript;
 
-    public bool reached, therapistAtMine;
+    public bool reached, therapistAtMine, therapistNearPlayer;
     private void Start()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -28,6 +28,8 @@ public class navmeshTherapist : MonoBehaviour
         currentTransform = player;
 
         therapistDialoguesScript = GetComponent<therapistDialogues>();
+
+        therapistNearPlayer=false;
     }
 
     // Update is called once per frame
@@ -45,6 +47,7 @@ public class navmeshTherapist : MonoBehaviour
         if (Vector3.Magnitude(agent.velocity) == 0f)
         {
             reached = true;
+            LookAtPlayer();
         }
         else
         {
@@ -64,6 +67,17 @@ public class navmeshTherapist : MonoBehaviour
             }
         }
 
+
+        if (Vector3.Distance(this.transform.position, player.position) <= 5f)
+        {
+            therapistNearPlayer = true;
+        }
+
+        else
+        {
+            therapistNearPlayer = false;
+
+        }
 
     }
 
@@ -104,37 +118,9 @@ public class navmeshTherapist : MonoBehaviour
         currentTransform = startPos;
     }
 
-    /*void updateDialogue()
-    {
-        if (agent.remainingDistance == 0)
-        {
-            if (currentTransform == player)
-            {
-                therapistDialoguesScript.currentDialogue = 0;
-            }
 
-            else if(currentTransform == vinePos) 
-            {
-                therapistDialoguesScript.currentDialogue = 1;
-            }
-        }
-    }*/
-
-    /*private void OnTriggerStay(Collider other)
+    void LookAtPlayer()
     {
-        if(other.name=="Player")
-        {
-            //reached player
-            reachedPlayer = true;
-        }
+        transform.LookAt(player.position);
     }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.name == "Player")
-        {
-            //reached player
-            reachedPlayer = false;
-        }
-    }*/
 }

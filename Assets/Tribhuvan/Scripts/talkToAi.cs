@@ -35,8 +35,9 @@ public class talkToAi : MonoBehaviour
     // This function is called once the transcription is completed
     private void ProcessAIResponse()
     {
-        if (voiceManager.isTranscribing)
+        if (voiceManager.transcriptionCompletedbool)
         {
+            voiceManager.transcriptionCompletedbool=false;
             string userMessage = voiceManager.transcribedText.text; // Get the transcribed message
 
             // Send the message to the AI for processing
@@ -49,10 +50,16 @@ public class talkToAi : MonoBehaviour
     // This function is called once the AI response is received
     private void SendAIResponseToTTS(string aiResponse)
     {
-        // Send the AI response to the TextToSpeech system for conversion to speech
-        textToSpeech.startTTs(aiResponse);
+        if(aiChat.responseReceived)
+        {
+            aiChat.responseReceived = false;
+            textToSpeech.startTTs(aiResponse);
 
-        // Trigger the event
-        onVoiceToTextProcessed?.Invoke();
+            // Trigger the event
+            onVoiceToTextProcessed?.Invoke();
+        }
+        // Send the AI response to the TextToSpeech system for conversion to speech
+        
     }
+
 }

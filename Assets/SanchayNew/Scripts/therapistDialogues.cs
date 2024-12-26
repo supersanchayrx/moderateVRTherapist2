@@ -31,6 +31,8 @@ public class therapistDialogues : MonoBehaviour
     navmeshTherapist therapistScript;
     TextToSpeech ttsScript;
 
+    public StormManager stormManager;
+
     public Transform wisdomTree;
 
     public bool vineConnected = false;
@@ -45,6 +47,24 @@ public class therapistDialogues : MonoBehaviour
 
     private void Update()
     {
+        switch (currentDialogue)
+        {
+            case 0:
+                Debug.Log("this is wisdom tree ");
+                break;
+            case 1:
+                Debug.Log("this is chaotic interaction");
+                break;
+            case 2:
+                Debug.Log("this is puzzle instruction");
+                break;
+            case 3:
+                Debug.Log("this is puzzle Feedback");
+                break;
+            case 5:
+                Debug.Log("this is final victory");
+                break;
+        }
 
         if (Vector3.Distance(this.gameObject.transform.position, therapistScript.player.position) <= reachedDistance)
         {
@@ -56,7 +76,7 @@ public class therapistDialogues : MonoBehaviour
             reachedPlayer = false;
         }
 
-        if (reachedPlayer && !interacted && !anim.GetBool("isWalking") && !firstTime)
+        if (reachedPlayer && !interacted && !anim.GetBool("isWalking") && !firstTime && stormManager.stormStarted)
         {
             Debug.Log("starting the first time interaction");
             StartCoroutine(moveTonextPoint(2));
@@ -67,7 +87,7 @@ public class therapistDialogues : MonoBehaviour
             //playerFollowed = true;
             //interacted = true;
             Debug.Log("starting Mine interaction");
-            currentDialogue = 1;
+            currentDialogue = 2;
             StartCoroutine(moveTonextPoint(2));
         }
 
@@ -115,15 +135,15 @@ public class therapistDialogues : MonoBehaviour
             StartCoroutine(pointToWisdomTree());
         }
 
-        if(playerCompletedInstruction)
+        /*if(playerCompletedInstruction)
         {
             playerCompletedInstruction = false;
             currentDialogue++;
-        }
+        }*/
     }
 
 
-    IEnumerator moveTonextPoint(int i)
+    public IEnumerator moveTonextPoint(int i)
     {
         interacted = true;
         canTalk = false;
@@ -132,14 +152,14 @@ public class therapistDialogues : MonoBehaviour
             ttsScript.startTTs(dialogues[currentDialogue]);
             currentttsRequests++;
         }
-        yield return new WaitForSeconds(15f);
+        yield return new WaitForSeconds(13f);
         therapistScript.setTransform(i);
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(3f);
         //playerFollowed = false;
         //interacted = false;
     }
 
-    IEnumerator moveTonextPoint(int i, bool retryRequest)
+    public IEnumerator moveTonextPoint(int i, bool retryRequest)
     {
         /*playerFollowed = true;
         if (currentttsRequests < ttsRequestCount && reachedPlayer)
@@ -167,8 +187,9 @@ public class therapistDialogues : MonoBehaviour
         canTalk = false;
         ttsScript.startTTs(dialogues[currentDialogue]);
 
+        yield return new WaitForSeconds(6f);
         anim.SetTrigger("Point");
-        yield return new WaitForSeconds(8f);
+        yield return new WaitForSeconds(4f);
         Vector3 direction = wisdomTree.position - transform.position;
         direction.y= 0;
         if (direction!=Vector3.zero)
@@ -176,21 +197,23 @@ public class therapistDialogues : MonoBehaviour
             Quaternion targetRotation = Quaternion.LookRotation(direction);
             Vector3 eulerAngles = targetRotation.eulerAngles;
 
-            eulerAngles.y -= 44f;
+            eulerAngles.y -= 30f;
             Quaternion lookRot = Quaternion.Euler(eulerAngles);
 
 
             transform.rotation = Quaternion.Slerp(transform.rotation, lookRot, 5f * Time.deltaTime);
         }
 
-        //currentDialogue++;
-        //firstTime = false;
+        
 
         Debug.Log("told player about wisdom Tree");
 
 
         yield return new WaitForSeconds(10f);
         canTalk = true;
+
+        currentDialogue=1;
+        firstTime = false;
     }
 
 }
