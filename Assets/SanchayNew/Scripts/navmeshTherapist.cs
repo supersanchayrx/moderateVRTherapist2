@@ -68,7 +68,7 @@ public class navmeshTherapist : MonoBehaviour
         }
 
 
-        if (Vector3.Distance(this.transform.position, player.position) <= 5f)
+        if (Vector3.Distance(this.transform.position, player.position) <= 6f)
         {
             therapistNearPlayer = true;
         }
