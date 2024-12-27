@@ -29,6 +29,8 @@ public class affirmationsScript : MonoBehaviour
 
     public float initialVolume;
 
+    //public ChangeRenderTexture CRT;
+
     private void Awake()
     {
         appVoiceExperience.VoiceEvents.OnFullTranscription.AddListener((transcription) =>
@@ -143,6 +145,7 @@ public class affirmationsScript : MonoBehaviour
 
         saidSomethingNice?.Invoke();
         ttsScript.startTTs("Yes good job! See the mirror is becoming clearer and the voices are getting fainter. Let's continue with the affirmations");
+        //CRT.ResizeRenderTexture();
         affirmationCount++;
         // Add your logic for affirmation here
     }
