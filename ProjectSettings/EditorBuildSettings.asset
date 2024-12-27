@@ -11,6 +11,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Tribhuvan/EffectStuff/Scenes/Main Demo Scene.unity
     guid: 1da83d9d5fc080247adec03f1a0bd35a
+  - enabled: 1
+    path: Assets/SanchayNew/Scenes/MirrorChamber.unity
+    guid: 08c10cb9ce632a54cbea0e7a105fc828
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: ef9e7f6f6f55ce84aada987e23ede2a4, type: 2}
     Unity.XR.WindowsMR.Settings: {fileID: 11400000, guid: dc5a169419fa04987b057f65238cf3ba, type: 2}

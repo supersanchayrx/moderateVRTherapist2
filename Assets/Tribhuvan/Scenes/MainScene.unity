@@ -2938,11 +2938,17 @@ PrefabInstance:
         Use \"LEFT JOYSTICK\" to move.\n\n3. Use \"RIGHT JOYSTICK\" to snap turn.\n\n4.
         You can push your \"RIGHT JOYSTICK\" to \n    teleport around the area.\n\n5.
         Get to the Mat to get into the car.\n\n6. It will take you through a journey
-        into your\n    mind\n\n7. Fasten your seatbelts and enjoy the ride :)"
+        into your\n    mind.\n\n7. You can stand close to AI Therapist, click \n   
+        \"MENU\" button on \"LEFT CONTROLLER\" \n     to speak to the therapist\n\n8.
+        The AI therapist will reply based on the \n    fine tuned LLama model.\n\n9.
+        your speech and the AI Therapist's \n    transcription can be found found
+        upon \n    pressing \"MENU\" button.\n\n10. Feel Free to ask as many questions
+        as \n      you want, to the AI Therapist.\n\n\n Fasten your seatbelts and
+        enjoy the ride :)"
       objectReference: {fileID: 0}
     - target: {fileID: 2423856802963741844, guid: ed2b00c71d486b7419f5a1b12af89fe2, type: 3}
       propertyPath: m_lineSpacing
-      value: 36.15
+      value: -11.37
       objectReference: {fileID: 0}
     - target: {fileID: 3576833455402667854, guid: ed2b00c71d486b7419f5a1b12af89fe2, type: 3}
       propertyPath: m_Name

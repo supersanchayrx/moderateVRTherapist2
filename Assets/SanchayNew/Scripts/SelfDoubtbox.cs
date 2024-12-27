@@ -25,6 +25,8 @@ public class SelfDoubtbox : MonoBehaviour
 
     public GameObject ropes;
 
+    public GameObject portal;
+
 
     private void Start()
     {
@@ -99,6 +101,7 @@ public class SelfDoubtbox : MonoBehaviour
             selfDoubtsStarted = true;
 
             ropes.SetActive(false);
+            portal.SetActive(true);
 
             StartCoroutine(MoveToMine());
         }
