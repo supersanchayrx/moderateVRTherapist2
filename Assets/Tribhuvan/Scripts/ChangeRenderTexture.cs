@@ -11,11 +11,11 @@ public class ChangeRenderTexture : MonoBehaviour
     public RenderTexture targetRenderTexture; // The Render Texture to resize
 
     [Header("Default Dimensions")]
-    public int defaultWidth = 350; // Default width
+    public int defaultWidth = 10; // Default width
     public int defaultHeight = 500; // Default height
 
     [Header("Dynamic Dimensions")]
-    public int[] widthArray = { 10, 50, 100, 200, 350 }; // Width options
+    public int[] widthArray = { 20, 50, 100, 200, 350 }; // Width options
     public int fixedHeight = 500; // Height remains fixed
     private int currentIndex = 0; // Index to track the array position
 
@@ -48,7 +48,7 @@ public class ChangeRenderTexture : MonoBehaviour
         ResetToDefaultSize();
     }
 
-    void ResizeRenderTexture()
+    public void ResizeRenderTexture()
     {
         // Release the current Render Texture
         targetRenderTexture.Release();
