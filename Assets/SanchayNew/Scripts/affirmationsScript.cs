@@ -121,6 +121,9 @@ public class affirmationsScript : MonoBehaviour
         {
             Debug.Log("No scope intent");
         }
+
+        appVoiceExperience.Deactivate();
+        recording = false;
     }
 
     void OnVoiceError(string error, string message)
