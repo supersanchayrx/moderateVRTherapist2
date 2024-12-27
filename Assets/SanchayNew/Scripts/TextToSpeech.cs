@@ -135,7 +135,7 @@ public class TextToSpeech : MonoBehaviour
         StartCoroutine(playAudioFile(path));
     }
 
-    IEnumerator playAudioFile(string path)
+    /*IEnumerator playAudioFile(string path)
     {
         using (UnityWebRequest audioReq = UnityWebRequestMultimedia.GetAudioClip($"file://{path}", AudioType.MPEG))
         {
@@ -154,30 +154,88 @@ public class TextToSpeech : MonoBehaviour
                 anim.SetTrigger("talking");
             }
         }
-    }
+    }*/
 
-
-    /*IEnumerator DownloadAudio(string mediaUrl)
+    IEnumerator playAudioFile(string path, int retryCount = 0, int maxRetries = 3)
     {
-        using (UnityWebRequest audioReq = UnityWebRequestMultimedia.GetAudioClip(mediaUrl, AudioType.WAV))
+        using (UnityWebRequest audioReq = UnityWebRequestMultimedia.GetAudioClip($"file://{path}", AudioType.MPEG))
         {
             yield return audioReq.SendWebRequest();
 
             if (audioReq.result == UnityWebRequest.Result.ConnectionError || audioReq.result == UnityWebRequest.Result.ProtocolError)
             {
-                Debug.Log("Error 3 audio file download nhi ho rha error");
-            }
+                Debug.LogError($"Failed to load audio: {audioReq.error}");
 
+                if (retryCount < maxRetries)
+                {
+                    Debug.Log($"Retrying audio playback... Attempt {retryCount + 1}/{maxRetries}");
+                    yield return new WaitForSeconds(1); // Wait for 1 second before retrying
+                    StartCoroutine(playAudioFile(path, retryCount + 1, maxRetries));
+                }
+                else
+                {
+                    Debug.LogError("Max retries reached. Failed to play audio.");
+                }
+            }
             else
             {
-                AudioClip downloadedAudio = DownloadHandlerAudioClip.GetContent(audioReq);
+                AudioClip clip = DownloadHandlerAudioClip.GetContent(audioReq);
 
-                audioSource.clip = downloadedAudio;
-                audioSource.Play();
-                Debug.Log("Everything worked voila!");
+                if (clip == null)
+                {
+                    Debug.LogError("AudioClip is null after download.");
+                    if (retryCount < maxRetries)
+                    {
+                        Debug.Log($"Retrying audio playback... Attempt {retryCount + 1}/{maxRetries}");
+                        yield return new WaitForSeconds(1); // Wait for 1 second before retrying
+                        StartCoroutine(playAudioFile(path, retryCount + 1, maxRetries));
+                    }
+                    else
+                    {
+                        Debug.LogError("Max retries reached. AudioClip is null.");
+                    }
+                }
+                else
+                {
+                    audioSource.clip = clip;
+
+                    if (!TryPlayAudio(retryCount, maxRetries))
+                    {
+                        Debug.LogError("Audio playback failed after retries.");
+                    }
+                }
             }
         }
-    }*/
+    }
+
+    private bool TryPlayAudio(int retryCount, int maxRetries)
+    {
+        try
+        {
+            audioSource.Play();
+            anim.SetTrigger("talking");
+
+            if (!audioSource.isPlaying)
+            {
+                Debug.LogError("FMOD Error: AudioSource failed to play.");
+                throw new Exception("FMOD playback issue detected.");
+            }
+
+            return true;
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"Playback Error: {ex.Message}");
+
+            if (retryCount < maxRetries)
+            {
+                Debug.Log($"Retrying audio playback... Attempt {retryCount + 1}/{maxRetries}");
+                StartCoroutine(playAudioFile(audioSource.clip.name, retryCount + 1, maxRetries)); // Retry audio file playback
+            }
+        }
+
+        return false;
+    }
 
 
     [System.Serializable]

@@ -839,6 +839,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "say affirmations",
+                    "type": "Button",
+                    "id": "3c246c26-8b16-4815-90f4-c8cb85f28f51",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -1026,6 +1035,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Talk to therapist",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5f2593ce-3fce-4eee-9152-1e95ff4eacb3",
+                    "path": "*/{SecondaryButton}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "say affirmations",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
