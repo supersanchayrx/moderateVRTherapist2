@@ -135,28 +135,28 @@ public class TextToSpeech : MonoBehaviour
         StartCoroutine(playAudioFile(path));
     }
 
-    /*IEnumerator playAudioFile(string path)
+    IEnumerator playAudioFile(string path)
     {
         using (UnityWebRequest audioReq = UnityWebRequestMultimedia.GetAudioClip($"file://{path}", AudioType.MPEG))
         {
             yield return audioReq.SendWebRequest();
 
-            if(audioReq.result == UnityWebRequest.Result.ConnectionError || audioReq.result == UnityWebRequest.Result.ProtocolError)
+            if (audioReq.result == UnityWebRequest.Result.ConnectionError || audioReq.result == UnityWebRequest.Result.ProtocolError)
             {
                 Debug.LogError($"Failed to load audio: {audioReq.error}");
             }
 
             else
             {
-                AudioClip clip= DownloadHandlerAudioClip.GetContent(audioReq);
+                AudioClip clip = DownloadHandlerAudioClip.GetContent(audioReq);
                 audioSource.clip = clip;
                 audioSource.Play();
                 anim.SetTrigger("talking");
             }
         }
-    }*/
+    }
 
-    IEnumerator playAudioFile(string path, int retryCount = 0, int maxRetries = 3)
+    /*IEnumerator playAudioFile(string path, int retryCount = 0, int maxRetries = 3)
     {
         using (UnityWebRequest audioReq = UnityWebRequestMultimedia.GetAudioClip($"file://{path}", AudioType.MPEG))
         {
@@ -235,7 +235,7 @@ public class TextToSpeech : MonoBehaviour
         }
 
         return false;
-    }
+    }*/
 
 
     [System.Serializable]

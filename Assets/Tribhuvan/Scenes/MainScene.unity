@@ -46721,17 +46721,29 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4734138067019342787, guid: 2b071fcf623c1b74fbff0f39d6c3701e, type: 3}
       propertyPath: APIKEY
-      value: sk_02e65581ff5c92a1e04bf9068d53bef0bce8ce10428e9287
+      value: sk_af09126f88b28e5194cf4cbc70e4ec49c3c10325386210e1
       objectReference: {fileID: 0}
     - target: {fileID: 4734138067019342787, guid: 2b071fcf623c1b74fbff0f39d6c3701e, type: 3}
       propertyPath: VoiceID
       value: nPczCjzI2devNBz1zQrb
       objectReference: {fileID: 0}
     - target: {fileID: 4734138067019342787, guid: 2b071fcf623c1b74fbff0f39d6c3701e, type: 3}
+      propertyPath: filename
+      value: TTsVoice2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4734138067019342787, guid: 2b071fcf623c1b74fbff0f39d6c3701e, type: 3}
+      propertyPath: TTsButton
+      value: 
+      objectReference: {fileID: 2054416543}
+    - target: {fileID: 4734138067019342787, guid: 2b071fcf623c1b74fbff0f39d6c3701e, type: 3}
+      propertyPath: audioSource
+      value: 
+      objectReference: {fileID: 2054416546}
+    - target: {fileID: 4734138067019342787, guid: 2b071fcf623c1b74fbff0f39d6c3701e, type: 3}
       propertyPath: textMessage
-      value: Hello! My name is Brian. Your helpful AI therapist created by Moderate
-        Limited! Follow me to the car or you can also ask me questions by pressing
-        the left menu button
+      value: 'Hello Again friend! You just confronted one of the feelings! Would
+        you like to do it again with a different feeling ? If yes follow me into
+        the car again '
       objectReference: {fileID: 0}
     - target: {fileID: 5660595298012267119, guid: 2b071fcf623c1b74fbff0f39d6c3701e, type: 3}
       propertyPath: m_IsActive
@@ -46820,6 +46832,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f88adebe890fcd46a86c9f6cc3d63a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2054416543 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3795099314316373458, guid: 2b071fcf623c1b74fbff0f39d6c3701e, type: 3}
+  m_PrefabInstance: {fileID: 2054416540}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &2054416544
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46848,6 +46871,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca4630463b863ec4a8b5349fb329d482, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!82 &2054416546 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 8200013900641931861, guid: 2b071fcf623c1b74fbff0f39d6c3701e, type: 3}
+  m_PrefabInstance: {fileID: 2054416540}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &2054416551
 MonoBehaviour:
   m_ObjectHideFlags: 0
