@@ -22,12 +22,16 @@ public class affirmationsScript : MonoBehaviour
 
     public AudioSource whisperVoices, sereneVoices;
 
+    public selfDoubtVoices selfDoubtScript;
+
 
     public InputActionReference voiceCommands;
 
     public int affirmationCount;
 
     public float initialVolume;
+
+    public bool doOnce;
 
     //public ChangeRenderTexture CRT;
 
@@ -56,6 +60,7 @@ public class affirmationsScript : MonoBehaviour
         affirmationCount = 0;
         initialVolume = whisperVoices.volume;
         sereneVoices.gameObject.SetActive(false);
+        doOnce=true;
     }
 
     private void OnDestroy()
@@ -67,6 +72,15 @@ public class affirmationsScript : MonoBehaviour
 
         voiceCommands.action.Disable();
         voiceCommands.action.performed -= sayAffirmations;
+    }
+
+    private void Update()
+    {
+        if(doOnce && affirmationCount>=5)
+        {
+            doOnce = false;
+            selfDoubtScript.canTalk = true;
+        }
     }
 
     void sayAffirmations(InputAction.CallbackContext context)
@@ -139,6 +153,7 @@ public class affirmationsScript : MonoBehaviour
 
         ttsScript.startTTs("Please don't say anything bad about yourself! You are a great person and deserve all the love! Let's try the affirmations again");
         saidSomethingBad?.Invoke();
+        UpdateAudioVolume();
         // Add your logic for negative affirmation here
     }
 
@@ -150,6 +165,7 @@ public class affirmationsScript : MonoBehaviour
         ttsScript.startTTs("Yes good job! See the mirror is becoming clearer and the voices are getting fainter. Let's continue with the affirmations");
         //CRT.ResizeRenderTexture();
         affirmationCount++;
+        UpdateAudioVolume();
         // Add your logic for affirmation here
     }
 

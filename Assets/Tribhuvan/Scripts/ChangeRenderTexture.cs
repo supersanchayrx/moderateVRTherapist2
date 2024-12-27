@@ -11,7 +11,7 @@ public class ChangeRenderTexture : MonoBehaviour
     public RenderTexture targetRenderTexture; // The Render Texture to resize
 
     [Header("Default Dimensions")]
-    public int defaultWidth = 10; // Default width
+    public int defaultWidth = 350; // Default width
     public int defaultHeight = 500; // Default height
 
     [Header("Dynamic Dimensions")]
@@ -22,7 +22,7 @@ public class ChangeRenderTexture : MonoBehaviour
     void OnEnable()
     {
         // Ensure default size on entering Play Mode
-        ResetToDefaultSize();
+        ResizeRenderTexture();
     }
 
     void Start()

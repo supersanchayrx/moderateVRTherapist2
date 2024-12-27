@@ -46721,7 +46721,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4734138067019342787, guid: 2b071fcf623c1b74fbff0f39d6c3701e, type: 3}
       propertyPath: APIKEY
-      value: sk_af09126f88b28e5194cf4cbc70e4ec49c3c10325386210e1
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4734138067019342787, guid: 2b071fcf623c1b74fbff0f39d6c3701e, type: 3}
       propertyPath: VoiceID
