@@ -91,7 +91,7 @@ public class therapistDialogues : MonoBehaviour
             StartCoroutine(moveTonextPoint(2));
         }
 
-        if (interacted && !playerFollowed && !anim.GetBool("isWalking") && therapistScript.reached && therapistScript.therapistAtMine && !firstTime)
+        if (interacted && !playerFollowed && !anim.GetBool("isWalking") && therapistScript.reached && therapistScript.therapistAtMine && !firstTime && !therapistScript.therapistNearPlayer)
         {
             Debug.Log("setting off the timer");
             timer += Time.deltaTime;

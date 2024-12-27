@@ -38,7 +38,7 @@ public class StormManager : MonoBehaviour
 
     public Volume vol;
 
-    public AudioSource rainBgm;
+    public AudioSource rainBgm, forestSounds;
 
     public therapistDialogues therapistDialogueScript;
 
@@ -51,6 +51,7 @@ public class StormManager : MonoBehaviour
     public bool stormStarted;
 
     public TextToSpeech ttsScript;
+
 
     private void Start()
     {
@@ -94,6 +95,16 @@ public class StormManager : MonoBehaviour
         {
             ttsScript.startTTs("Yayy you did it!!  You calmed yourself by practicing Neuro therapeutic excercise developed by moderate limited. This is just one of many ways we help you calm your mind! Thanks for playing");
             StartCoroutine(ending());
+        }
+
+        if(stormStarted && masterSlider!=1f && forestSounds.gameObject.activeSelf)
+        {
+            forestSounds.gameObject.SetActive(false);
+        }
+
+        else if(stormStarted && masterSlider ==1f && !forestSounds.gameObject.activeSelf)
+        {
+            forestSounds.gameObject.SetActive(true);
         }
     }
 
